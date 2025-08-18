@@ -32,9 +32,10 @@ export function getAllPhotos(): Photo[] {
   photos.sort((a, b) => {
     const aIndex = FAVORITE_PHOTOS.indexOf(a.slug);
     const bIndex = FAVORITE_PHOTOS.indexOf(b.slug);
-    if (aIndex !== -1 && bIndex !== -1) {
-      return aIndex - bIndex;
-    }
+    
+    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+    if (aIndex !== -1) return -1;
+    if (bIndex !== -1) return 1;
     
     return Math.random() - 0.5;
   });

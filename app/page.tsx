@@ -15,7 +15,7 @@ export default function GalleryPage() {
       {/* Favorites Section (Row Layout) */}
       <div className="space-y-4">
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-          {favorites.map(photo => (
+          {favorites.map((photo, index) => (
             <Link key={photo.slug} href={`/photo/${photo.slug}`} className="block group">
               <div className="relative w-full rounded overflow-hidden bg-gray-100">
                 <Image
@@ -23,6 +23,7 @@ export default function GalleryPage() {
                   alt={photo.title}
                   width={600}
                   height={400}
+                  priority={index < 3}
                   className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
                   sizes="(max-width: 1024px) 50vw, 33vw"
                 />
@@ -43,6 +44,7 @@ export default function GalleryPage() {
                 alt={photo.title}
                 width={600}
                 height={400}
+                loading="lazy"
                 className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
