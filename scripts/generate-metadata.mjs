@@ -1,4 +1,6 @@
 // scripts/generate-metadata.mjs
+// Run with: npm run generate:metadata
+
 import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
