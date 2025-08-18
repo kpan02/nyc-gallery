@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
+import { FAVORITE_PHOTOS } from './favorite-photos';
 
 export type Photo = {
   slug: string;
@@ -27,8 +28,17 @@ export function getAllPhotos(): Photo[] {
     return data;
   });
 
-  // Optional: sort newest first if date is present
-  photos.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  // Sort favorite photos based on custom order && randomize the main gallery
+  photos.sort((a, b) => {
+    const aIndex = FAVORITE_PHOTOS.indexOf(a.slug);
+    const bIndex = FAVORITE_PHOTOS.indexOf(b.slug);
+    if (aIndex !== -1 && bIndex !== -1) {
+      return aIndex - bIndex;
+    }
+    
+    return Math.random() - 0.5;
+  });
+  
   return photos;
 }
 
