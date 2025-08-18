@@ -29,6 +29,13 @@ export function getAllPhotos(): Photo[] {
   });
 
   // Sort favorite photos based on custom order && randomize the main gallery
+  const seed = Date.now();
+  const seededRandom = (a: Photo, b: Photo) => {
+    const aHash = a.slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const bHash = b.slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return (aHash + seed) % 1000 - (bHash + seed) % 1000;
+  };
+
   photos.sort((a, b) => {
     const aIndex = FAVORITE_PHOTOS.indexOf(a.slug);
     const bIndex = FAVORITE_PHOTOS.indexOf(b.slug);
@@ -37,7 +44,7 @@ export function getAllPhotos(): Photo[] {
     if (aIndex !== -1) return -1;
     if (bIndex !== -1) return 1;
     
-    return Math.random() - 0.5;
+    return seededRandom(a, b);
   });
   
   return photos;
