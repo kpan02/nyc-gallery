@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -24,3 +25,68 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Site header styling */
+
+.site-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 5rem;
+  letter-spacing: 2px;
+}
+
+
+/* Navigation styles */
+.nav-link {
+  font-weight: 400;
+  color: #525252;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #737373;
+}
+
+.nav-link.active {
+  font-weight: 600;
+  color: #171717;
+}
+
+/* Photo caption styling */
+.photo-caption {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 0.8rem;
+  margin-top: 0.1rem;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .site-title {
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
+  
+  .nav-link {
+    font-size: 0.75rem;
+    margin-bottom: -0.7rem;
+  }
+  
+  .photo-caption {
+    font-size: 0.6rem;
+    margin-top: 0.1rem;
+  }
+  
+  .mx-auto.max-w-6xl {
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  main.mx-auto.max-w-6xl {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+

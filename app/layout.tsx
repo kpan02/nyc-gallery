@@ -1,22 +1,30 @@
 import './globals.css';
 import Link from 'next/link';
+import Navigation from './components/Navigation';
 
 export const metadata = {
-  title: 'NYC Captured',
-  description: 'Photography by Kevin',
+  title: 'NYC GALLERY',
+  description: '',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="min-h-screen bg-white text-neutral-900">
-        <header className="border-b">
-          <nav className="mx-auto max-w-6xl px-4 h-14 flex items-center gap-6">
-            <Link href="/" className="font-semibold">NYC Captured</Link>
-            <Link href="/">Gallery</Link>
-            <Link href="/map">Map</Link>
-          </nav>
+        <header>
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="mb-4">
+              <h1 className="site-title">NYC GALLERY</h1>
+            </div>
+          </div>
         </header>
+        
+        <div>
+          <div className="mx-auto max-w-6xl px-4">
+            <Navigation />
+          </div>
+        </div>
+        
         <main className="mx-auto max-w-6xl px-4 py-6">
           {children}
         </main>
