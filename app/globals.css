@@ -61,9 +61,108 @@ body {
   margin-top: 0.1rem;
 }
 
+/* Theme toggle button */
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  border-radius: 0.1rem;
+  transition: all 0.2s ease;
+  color: #525252;
+  padding: 0 0.5rem;
+  margin-bottom: -0.5rem;
+}
+
+.theme-toggle:hover {
+  background-color: white;
+  color: #171717;
+}
+
+/* Light theme styles */
+.light {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+.light body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.light .site-title {
+  color: var(--foreground);
+}
+
+.light .nav-link {
+  color: #525252;
+}
+
+.light .nav-link:hover {
+  color: #737373;
+}
+
+.light .nav-link.active {
+  color: #171717;
+}
+
+.light .photo-caption {
+  color: #171717;
+}
+
+.light .theme-toggle {
+  color: #525252;
+}
+
+.light .theme-toggle:hover {
+  background-color: #f3f4f6;
+  color: #171717;
+}
+
+/* Dark theme styles */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+.dark body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.dark .site-title {
+  color: var(--foreground);
+}
+
+.dark .nav-link {
+  color: #a8aeb8;
+}
+
+.dark .nav-link:hover {
+  color: #d1d5db;
+}
+
+.dark .nav-link.active {
+  color: white;
+}
+
+.dark .photo-caption {
+  color: white;
+}
+
+.dark .theme-toggle {
+  color: white;
+}
+
+.dark .theme-toggle:hover {
+  background-color: #374151;
+  color: #f9fafb;
+}
+
 /* Mobile responsive styles */
 @media (max-width: 768px) {
   .site-title {
+    margin-top: 0.5rem;
     font-size: 2.5rem;
     letter-spacing: 1px;
   }
