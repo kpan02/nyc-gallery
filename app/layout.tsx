@@ -5,11 +5,12 @@ import Navigation from './components/Navigation';
 export const metadata = {
   title: 'NYC GALLERY',
   description: '',
+  icon: '/icon.png',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className="min-h-screen bg-white text-neutral-900">
         <header>
           <div className="mx-auto max-w-6xl px-4">

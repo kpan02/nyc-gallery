@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 
 export default function Navigation() {
   const pathname = usePathname();
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
   
   console.log('Current pathname:', pathname);
   console.log('Is root path?', pathname === '/');
@@ -16,8 +16,8 @@ export default function Navigation() {
   const isMapActive = pathname === '/map';
   
   useEffect(() => {
-    // Check for saved theme preference or default to light
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    // Check for saved theme preference or default to dark
+    const savedTheme = localStorage.getItem('theme') || 'dark';
     setTheme(savedTheme);
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(savedTheme);

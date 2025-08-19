@@ -23,7 +23,7 @@ export default function GalleryPage() {
                   alt={photo.title}
                   width={600}
                   height={400}
-                  className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-auto object-cover"
                   sizes="(max-width: 1024px) 50vw, 33vw"
                 />
               </div>
@@ -44,14 +44,14 @@ export default function GalleryPage() {
                 alt={photo.title}
                 width={600}
                 height={400}
-                className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-auto object-cover"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 priority={true}
                 loading="eager"
               />
             </div>
 
-            <div className="photo-caption">{photo.title}</div>
+            <div className="photo-caption mb-6">{photo.title}</div>
           </Link>
         ))}
       </div>
