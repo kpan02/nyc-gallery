@@ -45,6 +45,8 @@ export default function GalleryPage() {
                 height={400}
                 className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                priority={true}
+                loading="eager"
               />
             </div>
             <div className="mt-2 text-sm font-medium text-gray-900">{photo.title}</div>
