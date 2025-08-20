@@ -1,7 +1,6 @@
 export const dynamic = 'force-dynamic';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { getAllPhotos } from '@/lib/photos';
 import { FAVORITE_PHOTOS } from '@/lib/favorite-photos';
 
@@ -11,12 +10,12 @@ export default function GalleryPage() {
   const mainPhotos = allPhotos.filter(photo => !FAVORITE_PHOTOS.includes(photo.slug));
 
   return (
-    <section className="space-y-4">
-      {/* Favorites Section (Row Layout) */}
+    <section>
+      {/* Favorites Section */}
       <div className="space-y-2">
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="columns-2 lg:columns-3 gap-4 space-y-4">
           {favorites.map((photo) => (
-            <Link key={photo.slug} href={`/photo/${photo.slug}`} className="block group">
+            <div key={photo.slug} className="block group break-inside-avoid mb-4">
               <div className="relative w-full overflow-hidden bg-gray-100">
                 <Image
                   src={photo.image}
@@ -28,8 +27,8 @@ export default function GalleryPage() {
                 />
               </div>
               
-              <div className="photo-caption">{photo.title}</div>
-            </Link>
+              <div className="photo-caption mb-6">{photo.title}</div>
+            </div>
           ))}
         </div>
       </div>
@@ -37,7 +36,7 @@ export default function GalleryPage() {
       {/* Main Gallery Section (Column Layout & Random Ordering) */}
       <div className="columns-2 lg:columns-3 gap-4 space-y-4">
         {mainPhotos.map(photo => (
-          <Link key={photo.slug} href={`/photo/${photo.slug}`} className="block group break-inside-avoid mb-4">
+          <div key={photo.slug} className="block group break-inside-avoid mb-4">
             <div className="relative w-full overflow-hidden bg-gray-100">
               <Image
                 src={photo.image}
@@ -52,7 +51,7 @@ export default function GalleryPage() {
             </div>
 
             <div className="photo-caption mb-6">{photo.title}</div>
-          </Link>
+          </div>
         ))}
       </div>
     </section>
