@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header>
           <div className="mx-auto max-w-6xl px-4">
             <div className="mb-4">
-              <h1 className="site-title">NYC GALLERY</h1>
+              <h1 className="site-title inline-block scale-x-95 origin-left">NYC GALLERY</h1>
             </div>
           </div>
         </header>
