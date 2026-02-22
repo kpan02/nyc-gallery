@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+// print-titles.mjs
+// Prints the title of each photo from the metadata files.
+// Run: node scripts/print-titles.mjs
+
 import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';

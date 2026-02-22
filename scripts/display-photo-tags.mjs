@@ -1,5 +1,6 @@
-// scripts/display-photo-tags.mjs
-// Run with: node scripts/display-photo-tags.mjs
+// display-photo-tags.mjs
+// Displays all unique tags and photo-tag mappings from photo metadata files.
+// Run: node scripts/display-photo-tags.mjs
 
 import fs from 'fs';
 import path from 'path';

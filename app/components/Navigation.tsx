@@ -50,7 +50,7 @@ export default function Navigation() {
       
       <button
         onClick={toggleTheme}
-        className="theme-toggle"
+        className="theme-toggle w-8 flex items-center justify-center"
         aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
       >
         {theme === 'light' ? '☀︎' : '☾'}

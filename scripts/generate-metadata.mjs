@@ -1,5 +1,6 @@
-// scripts/generate-metadata.mjs
-// Run with: npm run generate:metadata
+// generate-metadata.mjs
+// Scans photos in public/photos and generates YAML metadata files with EXIF data in content/photos.
+// Run: npm run generate:metadata or node scripts/generate-metadata.mjs
 
 import fs from 'fs';
 import path from 'path';
