@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { Inter } from 'next/font/google';
 import type { Photo } from '@/lib/photos';
+
+const inter = Inter({ weight: ['400', '600'], subsets: ['latin'] });
 
 interface PhotoModalProps {
   photo: Photo | null;
@@ -81,7 +84,7 @@ export default function PhotoModal({ photo, isOpen, onClose }: PhotoModalProps) 
         </>
       ) : (
         <div 
-          className="relative w-fit max-w-5xl max-h-[95vh] flex flex-col bg-[#FEFEFA] shadow-2xl overflow-hidden"
+          className={`relative w-fit max-w-5xl max-h-[95vh] flex flex-col bg-[#FEFEFA] shadow-2xl overflow-hidden ${inter.className}`}
           onClick={(e) => e.stopPropagation()}
         >
           <button
@@ -92,7 +95,7 @@ export default function PhotoModal({ photo, isOpen, onClose }: PhotoModalProps) 
           </button>
           
           {/* Title and location on top */}
-          <div className="px-8 pt-6 pb-2 text-center">
+          <div className="px-5 pt-5 pb-2 text-center">
             <h2 className="text-2xl font-semibold text-gray-900">{photo.title}</h2>
             {location && (
               <p className="text-sm text-gray-600 mt-1">{location}</p>
@@ -100,7 +103,7 @@ export default function PhotoModal({ photo, isOpen, onClose }: PhotoModalProps) 
           </div>
           
           {/* Image and metadata - shared width constraint */}
-          <div className="flex flex-1 min-h-0 justify-center px-8 overflow-hidden">
+          <div className="flex flex-1 min-h-0 justify-center px-7 overflow-hidden">
             <div className="flex flex-col items-center min-w-0">
               <div className="relative flex-1 min-h-0 flex items-center">
                 <Image
@@ -114,7 +117,7 @@ export default function PhotoModal({ photo, isOpen, onClose }: PhotoModalProps) 
               </div>
               
               {/* Metadata constrained to image width, left-aligned */}
-              <div className="w-full pt-1.5 pb-6 flex flex-col items-start gap-y-0.5 text-sm text-gray-600">
+              <div className="w-full pt-1.5 pb-5 flex flex-col items-start gap-y-0.5 text-sm text-gray-600">
                 {(photo.date || photo.camera) && (
                   <div>
                     {[photo.date && formatDate(photo.date), photo.camera].filter(Boolean).join(' · ')}
