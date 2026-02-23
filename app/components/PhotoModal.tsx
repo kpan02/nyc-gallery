@@ -19,6 +19,10 @@ function formatDate(dateString: string): string {
   });
 }
 
+function formatCoordinate(value: number | string): string {
+  return Number(value).toFixed(5);
+}
+
 export default function PhotoModal({ photo, isOpen, onClose }: PhotoModalProps) {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -40,7 +44,7 @@ export default function PhotoModal({ photo, isOpen, onClose }: PhotoModalProps) 
 
   if (!isOpen || !photo) return null;
 
-  const location = [photo.neighborhood, photo.borough].filter(Boolean).join(', ');
+  const location = [photo.neighborhood, photo.borough].filter(Boolean).join(' · ');
 
   return (
     <div 
@@ -48,58 +52,53 @@ export default function PhotoModal({ photo, isOpen, onClose }: PhotoModalProps) 
       onClick={onClose}
     >
       <div 
-        className="relative max-w-5xl w-full max-h-[95vh] flex flex-col bg-white rounded-lg shadow-2xl overflow-hidden"
+        className="relative w-fit max-w-5xl max-h-[95vh] flex flex-col bg-white shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 text-2xl leading-none transition-colors"
+          className="absolute top-2 right-2 z-10 text-gray-400 hover:text-gray-600 text-xl leading-none transition-colors"
         >
           ×
         </button>
         
-        {/* Title on top */}
-        <div className="px-6 py-4">
-          <h2 className="text-2xl font-semibold text-gray-900 text-center">{photo.title}</h2>
+        {/* Title and location on top */}
+        <div className="px-8 pt-6 pb-2 text-center">
+          <h2 className="text-2xl font-semibold text-gray-900">{photo.title}</h2>
+          {location && (
+            <p className="text-sm text-gray-600 mt-1">{location}</p>
+          )}
         </div>
         
-        {/* Image in the middle */}
-        <div className="relative flex-1 min-h-0 flex items-center justify-center">
-          <Image
-            src={photo.image}
-            alt={photo.title}
-            width={1200}
-            height={800}
-            className="w-full h-full max-h-[65vh] object-contain"
-            priority
-          />
-        </div>
-        
-        {/* Metadata on bottom */}
-        <div className="px-6 py-4">
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-black">
-            {photo.date && (
-              <div className="flex items-center gap-2">
-                <span className="font-medium">Date:</span>
-                <span>{formatDate(photo.date)}</span>
-              </div>
-            )}
+        {/* Image and metadata - shared width constraint */}
+        <div className="flex flex-1 min-h-0 justify-center px-8 overflow-hidden">
+          <div className="flex flex-col items-center min-w-0">
+            <div className="relative flex-1 min-h-0 flex items-center">
+              <Image
+                src={photo.image}
+                alt={photo.title}
+                width={1200}
+                height={800}
+                className="max-h-[65vh] w-auto object-contain"
+                priority
+              />
+            </div>
             
-            {location && (
-              <div className="flex items-center gap-2">
-                <span className="font-medium">Location:</span>
-                <span>{location}</span>
-              </div>
-            )}
-            
-            {photo.camera && (
-              <div className="flex items-center gap-2">
-                <span className="font-medium">Camera:</span>
-                <span>{photo.camera}</span>
-              </div>
-            )}
+            {/* Metadata constrained to image width, left-aligned */}
+            <div className="w-full pt-1.5 pb-6 flex flex-col items-start gap-y-0.5 text-sm text-gray-600">
+              {(photo.date || photo.camera) && (
+                <div>
+                  {[photo.date && formatDate(photo.date), photo.camera].filter(Boolean).join(' · ')}
+                </div>
+              )}
+              
+              {(photo.latitude && photo.longitude) && (
+                <div className="text-sm text-gray-500">
+                  {formatCoordinate(photo.latitude)}, {formatCoordinate(photo.longitude)}
+                </div>
+              )}
+            </div>
           </div>
-          
         </div>
       </div>
     </div>
