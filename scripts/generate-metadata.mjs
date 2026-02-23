@@ -39,7 +39,10 @@ async function extractExif(filePath, ext) {
       if (data.Model || data.Make) {
         camera = [data.Make, data.Model].filter(Boolean).join(' ').trim();
         if (camera === 'Canon Canon PowerShot G7 X Mark II') {
-          camera = 'Canon PowerShot G7X Mark II';
+          camera = 'Canon G7X II';
+        }
+        if (camera === 'SONY DSC-W830') {
+          camera = 'Sony DSC-W830';
         }
       }
     }
