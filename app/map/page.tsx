@@ -8,8 +8,6 @@ export default function MapPage() {
 
   return (
     <section className="space-y-4">
-      <h1 className="text-2xl font-semibold">Map</h1>
-      <p className="text-neutral-600">Photo locations in NYC</p>
       <MapWrapper photos={photos} />
     </section>
   );

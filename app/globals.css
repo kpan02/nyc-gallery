@@ -160,6 +160,17 @@ body {
   color: #f9fafb;
 }
 
+/* Map thumbnail markers - remove default Leaflet pin styling */
+.thumbnail-marker {
+  background: none !important;
+  border: none !important;
+}
+
+.leaflet-div-icon.thumbnail-marker {
+  background: none !important;
+  border: none !important;
+}
+
 /* Mobile responsive styles */
 @media (max-width: 768px) {
   .site-title {
