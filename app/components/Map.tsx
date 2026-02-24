@@ -24,6 +24,12 @@ function formatCoordinate(value: number | string): string {
   return Number(value).toFixed(5);
 }
 
+/** Derives thumbnail URL from full image path: /photos/dumbo-1.JPG → /photos/thumbs/dumbo-1.webp */
+function getThumbnailUrl(imagePath: string): string {
+  const base = imagePath.replace(/\.(jpg|jpeg|png|webp|avif)$/i, '').split('/').pop() || '';
+  return `/photos/thumbs/${base.toLowerCase()}.webp`;
+}
+
 function createThumbnailIcon(imageUrl: string, title: string) {
   return L.divIcon({
     className: 'thumbnail-marker',
@@ -58,7 +64,7 @@ export default function Map({ photos }: MapProps) {
         <Marker
           key={photo.slug}
           position={[Number(photo.latitude), Number(photo.longitude)]}
-          icon={createThumbnailIcon(photo.image, photo.title)}
+          icon={createThumbnailIcon(getThumbnailUrl(photo.image), photo.title)}
           title={photo.title}
         >
           <Popup>
