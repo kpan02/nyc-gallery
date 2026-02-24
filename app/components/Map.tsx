@@ -1,6 +1,6 @@
 'use client';
 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, LayersControl } from 'react-leaflet';
 import L from 'leaflet';
 import type { Photo } from '@/lib/photos';
 
@@ -56,10 +56,29 @@ export default function Map({ photos }: MapProps) {
       scrollWheelZoom={true}
       attributionControl={false}
     >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+      <LayersControl position="bottomleft">
+        <LayersControl.BaseLayer checked name="Street">
+          <TileLayer
+            attribution=""
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+            maxZoom={19}
+          />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="Satellite">
+          <TileLayer
+            attribution=""
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+            maxZoom={18}
+          />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="Minimalist">
+          <TileLayer
+            attribution=""
+            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+            maxZoom={19}
+          />
+        </LayersControl.BaseLayer>
+      </LayersControl>
       {photosWithLocation.map((photo) => (
         <Marker
           key={photo.slug}
@@ -67,29 +86,31 @@ export default function Map({ photos }: MapProps) {
           icon={createThumbnailIcon(getThumbnailUrl(photo.image), photo.title)}
           title={photo.title}
         >
-          <Popup>
-            <div className="min-w-[180px] max-w-[240px] text-center">
-              <h3 className="font-semibold text-base mb-1">{photo.title}</h3>
+          <Popup className="custom-popup" minWidth={200} maxWidth={200}>
+            <div className="map-info-window">
+              <div className="date">{photo.title}</div>
               {(photo.neighborhood || photo.borough) && (
-                <p className="text-xs text-gray-600 mb-2">
+                <div className="description">
                   {[photo.neighborhood, photo.borough].filter(Boolean).join(' · ')}
-                </p>
+                </div>
               )}
               {photo.image && (
                 <img
                   src={photo.image}
                   alt={photo.title}
-                  className="w-full rounded object-cover max-h-40 mb-2 mx-auto"
+                  className="popup-image"
                 />
               )}
-              <div className="text-xs text-gray-500 space-y-0.5">
-                {(photo.date || photo.camera) && (
-                  <p>{[photo.date && formatDate(photo.date), photo.camera].filter(Boolean).join(' · ')}</p>
-                )}
-                {photo.latitude != null && photo.longitude != null && (
-                  <p>{formatCoordinate(photo.latitude)}, {formatCoordinate(photo.longitude)}</p>
-                )}
-              </div>
+              {(photo.date || photo.camera) && (
+                <div className="description">
+                  {[photo.date && formatDate(photo.date), photo.camera].filter(Boolean).join(' · ')}
+                </div>
+              )}
+              {photo.latitude != null && photo.longitude != null && (
+                <div className="description">
+                  {formatCoordinate(photo.latitude)}, {formatCoordinate(photo.longitude)}
+                </div>
+              )}
             </div>
           </Popup>
         </Marker>

@@ -171,6 +171,59 @@ body {
   border: none !important;
 }
 
+/* Map popup styles (from references/map-styles.css) */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 8px;
+  line-height: 1.35;
+  overflow: hidden;
+}
+
+.map-info-window {
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  padding: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.map-info-window .date {
+  font-weight: 600;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+.map-info-window .description {
+  margin-top: 3px;
+  margin-bottom: 0;
+  font-size: 0.75rem;
+  color: #525252;
+}
+
+.map-info-window .popup-image {
+  display: block;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  margin: 0 auto 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.custom-popup .map-info-window .popup-image {
+  display: block;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  margin: 0 auto 6px;
+}
+
 /* Mobile responsive styles */
 @media (max-width: 768px) {
   .site-title {
