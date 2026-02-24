@@ -40,6 +40,7 @@ async function main() {
 
     try {
       await sharp(filePath)
+        .rotate() 
         .resize(SIZE, SIZE, { fit: 'cover' })
         .webp({ quality: 80 })
         .toFile(outPath);
