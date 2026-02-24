@@ -1,8 +1,22 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, LayersControl } from 'react-leaflet';
 import L from 'leaflet';
 import type { Photo } from '@/lib/photos';
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth < 768
+  );
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+  return isMobile;
+}
 
 // Fix default marker icon in Next.js (Leaflet uses window/document)
 delete (L.Icon.Default.prototype as unknown as { _getIconUrl?: unknown })._getIconUrl;
@@ -44,6 +58,8 @@ interface MapProps {
 }
 
 export default function Map({ photos }: MapProps) {
+  const isMobile = useIsMobile();
+  const popupWidth = isMobile ? 125 : 200;
   const photosWithLocation = photos.filter(
     (p) => p.latitude != null && p.longitude != null && p.latitude !== 0 && p.longitude !== 0
   );
@@ -52,7 +68,7 @@ export default function Map({ photos }: MapProps) {
     <MapContainer
       center={[40.7128, -74.006]}
       zoom={12}
-      className="h-[80vh] w-full rounded-lg z-0"
+      className="map-container-leaflet h-[80vh] w-full rounded-lg z-0"
       scrollWheelZoom={true}
       attributionControl={false}
     >
@@ -86,7 +102,7 @@ export default function Map({ photos }: MapProps) {
           icon={createThumbnailIcon(getThumbnailUrl(photo.image), photo.title)}
           title={photo.title}
         >
-          <Popup className="custom-popup" minWidth={200} maxWidth={200}>
+          <Popup className="custom-popup" minWidth={popupWidth} maxWidth={popupWidth}>
             <div className="map-info-window">
               <div className="date">{photo.title}</div>
               {(photo.neighborhood || photo.borough) && (

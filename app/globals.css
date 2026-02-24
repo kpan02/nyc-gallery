@@ -179,15 +179,15 @@ body {
 }
 
 .leaflet-popup-content {
-  margin: 8px;
-  line-height: 1.35;
+  margin: 4px;
+  line-height: 1.25;
   overflow: hidden;
 }
 
 .map-info-window {
   font-family: 'Inter', sans-serif;
   text-align: center;
-  padding: 4px;
+  padding: 2px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -199,7 +199,7 @@ body {
 }
 
 .map-info-window .description {
-  margin-top: 3px;
+  margin-top: 2px;
   margin-bottom: 0;
   font-size: 0.75rem;
   color: #525252;
@@ -210,7 +210,7 @@ body {
   max-width: 100%;
   width: auto;
   height: auto;
-  margin: 0 auto 6px;
+  margin: 0 auto 4px;
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -221,7 +221,42 @@ body {
   max-width: 100%;
   width: auto;
   height: auto;
-  margin: 0 auto 6px;
+  margin: 0 auto 4px;
+}
+
+/* Map mobile responsive - match reference breakpoints */
+@media (max-width: 768px) {
+  .map-container-leaflet {
+    height: 70vh !important;
+    min-height: 400px;
+  }
+
+  .map-info-window .date {
+    font-size: 0.85rem;
+  }
+
+  .map-info-window .description {
+    font-size: 0.7rem;
+  }
+
+  .map-info-window {
+    padding: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-container-leaflet {
+    height: 65vh !important;
+    min-height: 350px;
+  }
+
+  .map-info-window .date {
+    font-size: 0.8rem;
+  }
+
+  .map-info-window .description {
+    font-size: 0.65rem;
+  }
 }
 
 /* Mobile responsive styles */
