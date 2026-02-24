@@ -62,78 +62,69 @@ export default function PhotoModal({ photo, isOpen, onClose }: PhotoModalProps) 
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-3 sm:p-4"
       onClick={onClose}
     >
-      {!isImageLoaded ? (
-        <>
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 z-10 text-white/70 hover:text-white text-2xl leading-none transition-colors"
-          >
-            ×
-          </button>
-          {/* Invisible image to trigger load */}
-          <div className="absolute opacity-0 w-0 h-0 overflow-hidden">
-            <Image
-              src={photo.image}
-              alt=""
-              width={1200}
-              height={800}
-              onLoad={() => setIsImageLoaded(true)}
-              priority
-            />
-          </div>
-        </>
-      ) : (
-        <div 
-          className={`relative w-fit max-w-5xl max-h-[95vh] flex flex-col bg-[#FEFEFA] shadow-2xl overflow-hidden ${inter.className}`}
-          onClick={(e) => e.stopPropagation()}
+      <div 
+        className={`relative w-fit max-w-5xl max-h-[95vh] flex flex-col bg-[#FEFEFA] shadow-2xl overflow-hidden ${inter.className}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 z-10 text-gray-400 hover:text-gray-600 text-xl leading-none transition-colors"
         >
-          <button
-            onClick={onClose}
-            className="absolute top-2 right-2 z-10 text-gray-400 hover:text-gray-600 text-xl leading-none transition-colors"
-          >
-            ×
-          </button>
-          
-          {/* Title and location on top */}
-          <div className="px-4 pt-4 pb-2 sm:px-5 sm:pt-5 text-center">
-            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">{photo.title}</h2>
-            {location && (
-              <p className="text-xs sm:text-sm text-gray-600 mt-1">{location}</p>
-            )}
-          </div>
-          
-          {/* Image and metadata - shared width constraint */}
-          <div className="flex flex-1 min-h-0 justify-center px-5 sm:px-7 overflow-hidden">
-            <div className="flex flex-col items-center min-w-0">
-              <div className="relative flex-1 min-h-0 flex items-center">
-                <Image
-                  src={photo.image}
-                  alt={photo.title}
-                  width={1200}
-                  height={800}
-                  className="max-h-[65vh] w-auto object-contain"
-                  priority
-                />
-              </div>
+          ×
+        </button>
+        
+        {/* Title and location on top */}
+        <div className="px-4 pt-4 pb-2 sm:px-5 sm:pt-5 text-center">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">{photo.title}</h2>
+          {location && (
+            <p className="text-xs sm:text-sm text-gray-600 mt-1">{location}</p>
+          )}
+        </div>
+        
+        {/* Image and metadata - shared width constraint */}
+        <div className="flex flex-1 min-h-0 justify-center px-5 sm:px-7 overflow-hidden">
+          <div className="flex flex-col items-center min-w-0">
+            <div className="relative flex-1 min-h-0 flex items-center">
+              {/* Placeholder: 600x400 (matches gallery - cached) */}
+              <Image
+                src={photo.image}
+                alt={photo.title}
+                width={600}
+                height={400}
+                className="max-h-[65vh] w-auto object-contain"
+                priority
+              />
+              {/* Full-size: fades in when loaded */}
+              <Image
+                src={photo.image}
+                alt={photo.title}
+                width={1200}
+                height={800}
+                className={`absolute inset-0 m-auto max-h-[65vh] w-auto object-contain transition-opacity duration-300 ${
+                  isImageLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
+                priority
+                onLoad={() => setIsImageLoaded(true)}
+              />
+            </div>
+            
+            {/* Metadata constrained to image width, left-aligned */}
+            <div className="w-full pt-1.5 pb-4 sm:pb-5 flex flex-col items-start gap-y-0.5 text-xs sm:text-sm text-gray-600">
+              {(photo.date || photo.camera) && (
+                <div>
+                  {[photo.date && formatDate(photo.date), photo.camera].filter(Boolean).join(' · ')}
+                </div>
+              )}
               
-              {/* Metadata constrained to image width, left-aligned */}
-              <div className="w-full pt-1.5 pb-4 sm:pb-5 flex flex-col items-start gap-y-0.5 text-xs sm:text-sm text-gray-600">
-                {(photo.date || photo.camera) && (
-                  <div>
-                    {[photo.date && formatDate(photo.date), photo.camera].filter(Boolean).join(' · ')}
-                  </div>
-                )}
-                
-                {(photo.latitude && photo.longitude) && (
-                  <div className="text-xs sm:text-sm text-gray-500">
-                    {formatCoordinate(photo.latitude)}, {formatCoordinate(photo.longitude)}
-                  </div>
-                )}
-              </div>
+              {(photo.latitude && photo.longitude) && (
+                <div className="text-xs sm:text-sm text-gray-500">
+                  {formatCoordinate(photo.latitude)}, {formatCoordinate(photo.longitude)}
+                </div>
+              )}
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
