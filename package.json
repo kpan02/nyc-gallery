@@ -9,8 +9,8 @@
     "lint": "next lint",
     "generate:metadata": "node scripts/generate-metadata.mjs",
     "generate:thumbnails": "node scripts/generate-thumbnails.mjs",
-    "clear:metadata": "node scripts/clear-metadata.mjs",
-    "delete:photo": "node scripts/delete-photo.mjs"
+    "delete:photo": "node scripts/delete-photo.mjs",
+    "validate:photos": "node scripts/validate-photos.mjs"
   },
   "dependencies": {
     "exifr": "^7.1.3",

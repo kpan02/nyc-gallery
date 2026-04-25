@@ -22,7 +22,6 @@ function parsePhotoFiles() {
         const photo = yaml.load(content);
         
         if (photo.tags && Array.isArray(photo.tags)) {
-          // Add tags to the set of unique tags
           photo.tags.forEach(tag => allTags.add(tag));
           
           photoTags.push({
@@ -47,15 +46,13 @@ function parsePhotoFiles() {
 try {  
   const { uniqueTags, photoTags } = parsePhotoFiles();
   
-  // Display unique tags
-  console.log('COMPREHENSIVE LIST OF UNIQUE TAGS:');
+  console.log('LIST OF UNIQUE TAGS:');
   uniqueTags.forEach((tag, index) => {
     console.log(`${index + 1}. ${tag}`);
   });
   
   console.log(`\nTotal unique tags: ${uniqueTags.length}\n`);
   
-  // Display photo-tag mappings
   console.log('PHOTO-TAG MAPPINGS:');
   photoTags.forEach(photo => {
     console.log(`(${photo.slug}): ${photo.tags.join(', ')}`);
