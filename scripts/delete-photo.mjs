@@ -13,7 +13,6 @@ if (!slug) {
 }
 
 const contentDir = path.join(process.cwd(), 'content/photos');
-const photosDir = path.join(process.cwd(), 'public/photos');
 const thumbsDir = path.join(process.cwd(), 'public/photos/thumbs');
 const favoritePhotosPath = path.join(process.cwd(), 'lib/favorite-photos.ts');
 
@@ -47,5 +46,24 @@ if (fs.existsSync(thumbPath)) {
 // Delete metadata
 fs.unlinkSync(metadataPath);
 console.log(`Deleted metadata: ${slug}.yml`);
+
+// Remove slug from favorites list
+if (fs.existsSync(favoritePhotosPath)) {
+  const favoritesRaw = fs.readFileSync(favoritePhotosPath, 'utf8');
+  const favoritesUpdated = favoritesRaw
+    .split('\n')
+    .filter((line) => {
+      const trimmed = line.trim();
+      return trimmed !== `'${slug}',` && trimmed !== `"${slug}",`;
+    })
+    .join('\n');
+
+  if (favoritesUpdated !== favoritesRaw) {
+    fs.writeFileSync(favoritePhotosPath, favoritesUpdated, 'utf8');
+    console.log(`Removed from favorites: ${slug}`);
+  }
+} else {
+  console.warn(`Favorites file not found: ${favoritePhotosPath}`);
+}
 
 console.log(`Done. Photo "${slug}" removed.`);

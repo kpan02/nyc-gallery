@@ -13,7 +13,11 @@ const contentDir = path.join(process.cwd(), 'content/photos');
 function listFiles(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((d) => {
     const p = path.join(dir, d.name);
-    return d.isDirectory() ? listFiles(p) : [p];
+    if (d.isDirectory()) {
+      if (d.name === 'thumbs') return [];
+      return listFiles(p);
+    }
+    return [p];
   });
 }
 
@@ -58,6 +62,28 @@ async function main() {
 
   if (files.length === 0) {
     return;
+  }
+
+  // Guard against slug collisions (same filename base across multiple files).
+  const slugToFiles = new Map();
+  for (const absPath of files) {
+    const relPath = path.relative(photosDir, absPath).replace(/\\/g, '/');
+    const slug = path.basename(relPath, path.extname(relPath)).toLowerCase();
+    const existing = slugToFiles.get(slug) || [];
+    existing.push(relPath);
+    slugToFiles.set(slug, existing);
+  }
+
+  const collisions = Array.from(slugToFiles.entries()).filter(([, relPaths]) => relPaths.length > 1);
+  if (collisions.length > 0) {
+    console.error('Slug collision(s) detected. Rename files so each slug is unique.');
+    for (const [slug, relPaths] of collisions) {
+      console.error(`- slug "${slug}" is produced by:`);
+      for (const relPath of relPaths) {
+        console.error(`  - ${relPath}`);
+      }
+    }
+    process.exit(1);
   }
 
   for (const absPath of files) {

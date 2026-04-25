@@ -11,6 +11,7 @@ import yaml from 'js-yaml';
 const ROOT = process.cwd();
 const CONTENT_DIR = path.join(ROOT, 'content/photos');
 const PUBLIC_DIR = path.join(ROOT, 'public');
+const PHOTOS_DIR = path.join(ROOT, 'public/photos');
 const THUMBS_DIR = path.join(ROOT, 'public/photos/thumbs');
 const FAVORITES_FILE = path.join(ROOT, 'lib/favorite-photos.ts');
 
@@ -21,6 +22,18 @@ function isYmlFile(fileName) {
 function readPhotoFiles() {
   if (!fs.existsSync(CONTENT_DIR)) return [];
   return fs.readdirSync(CONTENT_DIR).filter(isYmlFile);
+}
+
+function listPhotoSourceFiles(dir) {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      if (entry.name === 'thumbs') return [];
+      return listPhotoSourceFiles(fullPath);
+    }
+    return [fullPath];
+  });
 }
 
 function coerceNumber(value) {
@@ -61,6 +74,25 @@ function pushWarning(slug, message) {
 }
 
 function validate() {
+  const sourceFiles = listPhotoSourceFiles(PHOTOS_DIR).filter((filePath) => {
+    const ext = path.extname(filePath).toLowerCase();
+    return ext === '.jpg' || ext === '.jpeg' || ext === '.png' || ext === '.webp' || ext === '.avif';
+  });
+
+  const sourceSlugToFiles = new Map();
+  for (const absPath of sourceFiles) {
+    const relPath = path.relative(PHOTOS_DIR, absPath).replace(/\\/g, '/');
+    const slug = path.basename(relPath, path.extname(relPath)).toLowerCase();
+    const existing = sourceSlugToFiles.get(slug) || [];
+    existing.push(relPath);
+    sourceSlugToFiles.set(slug, existing);
+  }
+
+  const sourceCollisions = Array.from(sourceSlugToFiles.entries()).filter(([, relPaths]) => relPaths.length > 1);
+  for (const [slug, relPaths] of sourceCollisions) {
+    errors.push(`ERROR [slug=${slug}] source photo slug collision: ${relPaths.join(', ')}`);
+  }
+
   const files = readPhotoFiles();
   if (files.length === 0) {
     console.log('No metadata files found in content/photos');
